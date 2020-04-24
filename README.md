@@ -1,9 +1,24 @@
 # Markdoc
 
+![CI](https://github.com/StardustDL/Markdoc/workflows/CI/badge.svg)
+
 A Markdown-like document parser.
 
-## Guide
+## Features
 
+- [ ] Paragraph
+- [ ] Header
+- [ ] Code Block
+- [ ] Code Span
+- [ ] List
+  - [ ] Sub list
+- [ ] Text
+  - [ ] Normal
+  - [ ] Emphasized
+  - [ ] Strong
+- [ ] Break
+- [ ] Link
+- [ ] Image
 
 ## Test
 

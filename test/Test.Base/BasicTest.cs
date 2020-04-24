@@ -13,7 +13,7 @@ namespace Test.Base
         [TestMethod]
         public void Basic()
         {
-           
+
         }
     }
 }
