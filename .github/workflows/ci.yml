@@ -1,0 +1,80 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        config: [Debug, Release]
+        dnv: ["3.1.201"]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dnv }}
+    - name: Setup ReportGenerator
+      run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path ./tools
+      shell: pwsh
+    - name: Restore
+      run: dotnet restore -s https://api.nuget.org/v3/index.json
+      shell: pwsh
+    - name: Build
+      env:
+        CONFIG: ${{ matrix.config }}
+      run: dotnet build -c $env:CONFIG
+      shell: pwsh
+    - name: Test
+      env:
+        CONFIG: ${{ matrix.config }}
+      run: |
+        mkdir reports
+        dotnet test -c $env:CONFIG ./test/Test.Base /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=../../reports/coverage.xml /p:MergeWith=../../coverage.json
+      shell: pwsh
+    - name: Generate reports
+      run: ./tools/reportgenerator -reports:./reports/coverage.xml -targetdir:./reports
+      shell: pwsh
+    - name: Upload reports
+      uses: actions/upload-artifact@master
+      with:
+        name: test-${{ matrix.os }}-${{ matrix.config }}
+        path: ./reports
+  benchmark:
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        config: [Release]
+        dnv: ["3.1.201"]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.dnv }}
+    - name: Restore
+      run: dotnet restore -s https://api.nuget.org/v3/index.json
+      shell: pwsh
+    - name: Build
+      env:
+        CONFIG: ${{ matrix.config }}
+      run: dotnet build -c $env:CONFIG
+      shell: pwsh
+    - name: Run
+      env:
+        CONFIG: ${{ matrix.config }}
+      run: dotnet run -c $env:CONFIG --project ./test/Benchmark.Base
+      shell: pwsh
+    - name: Upload artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: benchmark-${{ matrix.os }}-${{ matrix.config }}
+        path: ./BenchmarkDotNet.Artifacts
