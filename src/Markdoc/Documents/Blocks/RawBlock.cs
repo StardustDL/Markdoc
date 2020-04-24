@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace Markdoc.Documents.Blocks
 {
-    public class Paragraph : BlockObject
+    public class RawBlock : BlockObject
     {
-        public Paragraph()
+        public RawBlock()
         {
 
         }
 
-        public Paragraph(string text) : this()
+        public RawBlock(string text) : this()
         {
             Content.Add(new Text(text));
         }
 
-        public Paragraph(params InlineObject[] inlines) : this()
+        public RawBlock(params InlineObject[] inlines) : this()
         {
             foreach (var v in inlines)
                 Content.Add(v);

@@ -9,8 +9,14 @@
 
     public class Text : InlineObject
     {
-        public TextStyle Style { get; set; } = TextStyle.Normal;
+        public Text(string content, TextStyle style = TextStyle.Normal)
+        {
+            Style = style;
+            Content = content;
+        }
 
-        public string Content { get; set; } = string.Empty;
+        public TextStyle Style { get; set; }
+
+        public string Content { get; set; }
     }
 }

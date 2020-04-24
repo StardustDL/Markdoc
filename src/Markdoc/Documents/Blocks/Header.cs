@@ -6,15 +6,27 @@ namespace Markdoc.Documents.Blocks
     {
         private int _level;
 
+        public Header()
+        {
+
+        }
+
+        public Header(int level, Paragraph? content = null) : this()
+        {
+            Level = level;
+            Content = content;
+        }
+
         public int Level
         {
             get => _level; set
             {
-                Assert.IsTrue(value > 0, $"{nameof(Level)} must be greater than 0.");
+                if (value < 1) value = 1;
+                if (value > 6) value = 6;
                 _level = value;
             }
         }
 
-        public string Content { get; set; } = string.Empty;
+        public Paragraph? Content { get; set; }
     }
 }

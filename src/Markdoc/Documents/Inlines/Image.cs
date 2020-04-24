@@ -5,8 +5,14 @@ namespace Markdoc.Documents.Inlines
 {
     public class Image : InlineObject
     {
-        public Paragraph? Label { get; set; }
+        public Image(string url, string alt = "")
+        {
+            Alt = alt;
+            Url = url;
+        }
 
-        public Uri? Uri { get; set; }
+        public string Alt { get; set; }
+
+        public string Url { get; set; }
     }
 }

@@ -5,8 +5,14 @@ namespace Markdoc.Documents.Inlines
 {
     public class Link : InlineObject
     {
-        public Paragraph? Label { get; set; }
+        public Link(string url, RawBlock? label = null)
+        {
+            Label = label;
+            Url = url;
+        }
 
-        public Uri? Uri { get; set; }
+        public RawBlock? Label { get; set; }
+
+        public string Url { get; set; }
     }
 }

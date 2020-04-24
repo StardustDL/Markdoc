@@ -2,6 +2,11 @@
 {
     public class CodeSpan : InlineObject
     {
-        public string Content { get; set; } = string.Empty;
+        public CodeSpan(string content)
+        {
+            Content = content;
+        }
+
+        public string Content { get; set; }
     }
 }
