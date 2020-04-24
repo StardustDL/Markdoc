@@ -8,7 +8,7 @@ namespace Markdoc.Parsers
 {
     public class DocumentParser : IParser<Document>
     {
-        Task<ParseResult<Document>> IParser<Document>.Parse(ReadOnlySpan<char> input)
+        Task<ParseResult<Document>> IParser<Document>.Parse(ParseInput input)
         {
             throw new NotImplementedException();
         }

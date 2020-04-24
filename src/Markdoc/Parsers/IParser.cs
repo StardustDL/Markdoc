@@ -6,6 +6,6 @@ namespace Markdoc.Parsers
 {
     public interface IParser<TObject> where TObject : DocumentObject
     {
-        Task<ParseResult<TObject>> Parse(ReadOnlySpan<char> input);
+        Task<ParseResult<TObject>> Parse(ParseInput input);
     }
 }
